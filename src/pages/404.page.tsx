@@ -5,6 +5,8 @@ import Link from 'next/link';
 
 import { getServerSideTranslations } from '@src/pages/utils/get-serverside-translations';
 
+import '@src/studio-experience/index';
+
 const ErrorPage404 = () => {
   const theme = useTheme();
   const { t } = useTranslation();

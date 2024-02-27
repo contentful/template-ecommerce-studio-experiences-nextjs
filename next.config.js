@@ -21,7 +21,6 @@ module.exports = withPlugins(plugins, {
    * documentation: https://nextjs.org/docs/api-reference/next.config.js/environment-variables
    */
   env: {
-    ENVIRONMENT_NAME: process.env.ENVIRONMENT_NAME,
   },
 
   /**
@@ -57,7 +56,7 @@ module.exports = withPlugins(plugins, {
    * Settings are the defaults
    */
   images: {
-    domains: ['images.ctfassets.net', 'images.eu.ctfassets.net'],
+    domains: ['images.ctfassets.net', 'images.eu.ctfassets.net', 'via.placeholder.com'],
   },
 
   pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],

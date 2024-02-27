@@ -1,57 +1,52 @@
-import { Box } from '@chakra-ui/react';
-import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { useTranslation } from 'next-i18next';
 
-import { HeroBanner } from '@src/components/features/hero-banner';
-import { ProductTileGrid } from '@src/components/features/product';
-import { SeoFields } from '@src/components/features/seo';
-import { client, previewClient } from '@src/lib/client';
+import { deliveryClient, previewClient } from '@src/lib/client';
 import { getServerSideTranslations } from '@src/pages/utils/get-serverside-translations';
+import { ExperienceRoot, createExperience, fetchBySlug } from '@contentful/experience-builder';
+
+import '@src/studio-experience/index';
 
 const Page = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { t } = useTranslation();
-  const page = useContentfulLiveUpdates(props.page);
+  const { experienceJSON, locale, referencedEntries, referencedAssets } = props;
 
-  return (
-    <>
-      {page.seoFields && <SeoFields {...page.seoFields} />}
-      <HeroBanner {...page} />
-      {page.productsCollection?.items && (
-        <Box
-          mt={{
-            base: 5,
-            md: 9,
-            lg: 16,
-          }}>
-          <ProductTileGrid
-            title={t('product.trendingProducts')}
-            products={page.productsCollection.items}
-          />
-        </Box>
-      )}
-    </>
-  );
+  const experience = createExperience(experienceJSON);
+  // @ts-expect-error
+  experience.entityStore!.entryMap = new Map(referencedEntries);
+  // @ts-expect-error
+  experience.entityStore!.assetMap = new Map(referencedAssets);
+
+  return (<ExperienceRoot experience={experience} locale={locale} />);
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, preview }) => {
   try {
-    const gqlClient = preview ? previewClient : client;
+    const client = preview ? previewClient : deliveryClient;
 
-    const data = await gqlClient.pageLanding({ locale, preview });
+    const experience = await fetchBySlug({
+      slug: 'landing',
+      localeCode: locale as string,
+      client,
+      experienceTypeId: process.env.CONTENTFUL_EXPERIENCE_TYPE_ID as string,
+    });
 
-    const page = data.pageLandingCollection?.items[0];
-
-    if (!page) {
+    if (!experience) {
       return {
         notFound: true,
       };
     }
 
+    // @ts-expect-error
+    const referencedAssets = Array.from(experience.entityStore?.assetMap.entries());
+    // @ts-expect-error
+    const referencedEntries = Array.from(experience.entityStore?.entryMap.entries());
+
     return {
       props: {
         ...(await getServerSideTranslations(locale)),
-        page,
+        experienceJSON: JSON.stringify(experience),
+        referencedAssets,
+        referencedEntries,
+        locale,
       },
     };
   } catch {
