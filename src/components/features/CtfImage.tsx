@@ -1,6 +1,6 @@
+import type { ComponentDefinition } from '@contentful/experience-builder';
 import NextImage, { ImageProps as NextImageProps } from 'next/image';
 
-import type { ComponentDefinition } from '@contentful/experience-builder';
 
 type CtfImageProps = Omit<NextImageProps, 'src'> & {
   url?: string;

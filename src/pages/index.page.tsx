@@ -1,8 +1,8 @@
+import { ExperienceRoot, createExperience, fetchBySlug } from '@contentful/experience-builder';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 import { deliveryClient, previewClient } from '@src/lib/client';
 import { getServerSideTranslations } from '@src/pages/utils/get-serverside-translations';
-import { ExperienceRoot, createExperience, fetchBySlug } from '@contentful/experience-builder';
 
 import '@src/studio-experience/index';
 

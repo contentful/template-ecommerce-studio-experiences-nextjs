@@ -1,4 +1,5 @@
 import { defineComponents, CONTENTFUL_COMPONENTS, defineDesignTokens } from '@contentful/experience-builder';
+
 import { CtfImage, CtfImageComponentDefinition } from '@src/components/features/CtfImage';
 
 defineComponents([
