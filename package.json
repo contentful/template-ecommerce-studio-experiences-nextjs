@@ -52,7 +52,7 @@
     "urijs": "^1.19.11"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.19.1",
+    "@babel/eslint-parser": "^7.23.10",
     "@chakra-ui/cli": "^2.1.8",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
