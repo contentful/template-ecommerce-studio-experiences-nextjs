@@ -29,7 +29,7 @@
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@contentful/experience-builder": "^4.0.0-alpha.29",
-    "@contentful/f36-icons": "^4.23.2",
+    "@contentful/f36-icons": "^4.27.0",
     "@contentful/f36-tokens": "^4.0.4",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
