@@ -1,5 +1,16 @@
-# Contentful Ecommerce Starter Template
+# Contentful Studio Experiences Demo
 
-An Ecommerce Starter Template powered by Next.js & Contentful
+Powered by Next.js and Contentful.
 
-![The homepage of the Ecommerce Starter Template](ecommerce-starter-template.jpg 'The homepage of the Ecommerce Starter Template')
+## Running locally
+
+1. Copy `.env.example` file as `.env` and fill it out with necessary environment variables
+2. Run `npm install`
+3. To run the project in dev mode, run it with `npm run dev`
+
+## Running remotely
+
+1. Make sure that necessary environment variables (mentioned in the `.env.example` file) are configured
+2. Run `npm install`
+3. Run `npm build`
+4. Run `npm start`
