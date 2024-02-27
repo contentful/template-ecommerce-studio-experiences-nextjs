@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query, lo
     };
   }
 
-  const client = query?.preview === 'true' ? previewClient : deliveryClient;
+  const client = Boolean(query?.preview) ? previewClient : deliveryClient;
 
   try {
     const experience = await fetchBySlug({
