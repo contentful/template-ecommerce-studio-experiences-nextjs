@@ -1,19 +1,15 @@
-import { GraphQLClient } from 'graphql-request';
+import { createClient } from "contentful";
 
-import { getSdk } from '@src/lib/__generated/sdk';
-import { endpoint } from 'codegen';
-
-const graphQlClient = new GraphQLClient(endpoint, {
-  headers: {
-    Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
-  },
+export const previewClient = createClient({
+  space: process.env.CONTENTFUL_SPACE_ID as string,
+  accessToken: process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN as string,
+  environment: process.env.CONTENTFUL_ENVIRONMENT_ID as string,
+  host: 'preview.contentful.com',
 });
 
-const previewGraphQlClient = new GraphQLClient(endpoint, {
-  headers: {
-    Authorization: `Bearer ${process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN}`,
-  },
+export const deliveryClient = createClient({
+  space: process.env.CONTENTFUL_SPACE_ID as string,
+  accessToken: process.env.CONTENTFUL_DELIVERY_ACCESS_TOKEN as string,
+  environment: process.env.CONTENTFUL_ENVIRONMENT_ID as string,
+  host: 'cdn.contentful.com',
 });
-
-export const client = getSdk(graphQlClient);
-export const previewClient = getSdk(previewGraphQlClient);

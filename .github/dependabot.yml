@@ -24,8 +24,6 @@ updates:
       - 'contentful/team-tolkien'
     registries:
       - npm-registry-registry-npmjs-org
-    allow:
-      - dependency-name: '@contentful/live-preview'
 
   - package-ecosystem: github-actions
     directory: '/'

@@ -1,64 +1,62 @@
-import { Box } from '@chakra-ui/react';
-import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { useTranslation } from 'next-i18next';
 
-import { ProductDetails, ProductTileGrid } from '@src/components/features/product';
-import { SeoFields } from '@src/components/features/seo';
-import { client, previewClient } from '@src/lib/client';
+import { deliveryClient, previewClient } from '@src/lib/client';
 import { getServerSideTranslations } from '@src/pages/utils/get-serverside-translations';
+import { ExperienceRoot, createExperience, fetchBySlug } from '@contentful/experience-builder';
+
+import '@src/studio-experience/index';
 
 const Page = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { t } = useTranslation();
-  const product = useContentfulLiveUpdates(props.product);
+  const { experienceJSON, locale, referencedEntries, referencedAssets } = props;
 
-  return (
-    <>
-      {product.seoFields && <SeoFields {...product.seoFields} />}
-      <ProductDetails {...product} />
-      {product.relatedProductsCollection?.items && (
-        <Box
-          mt={{
-            base: 5,
-            md: 9,
-            lg: 16,
-          }}>
-          <ProductTileGrid
-            title={t('product.relatedProducts')}
-            products={product.relatedProductsCollection.items}
-          />
-        </Box>
-      )}
-    </>
-  );
+  const experience = createExperience(experienceJSON);
+  // @ts-expect-error
+  experience.entityStore!.entryMap = new Map(referencedEntries);
+  // @ts-expect-error
+  experience.entityStore!.assetMap = new Map(referencedAssets);
+
+  return <ExperienceRoot experience={experience} locale={locale} />;
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale, preview }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, query, locale }) => {
   if (!params?.slug || !locale) {
     return {
       notFound: true,
     };
   }
 
-  const gqlClient = preview ? previewClient : client;
+  const client = query?.preview === 'true' ? previewClient : deliveryClient;
 
   try {
-    const data = await gqlClient.pageProduct({ slug: params.slug.toString(), locale, preview });
-    const product = data.pageProductCollection?.items[0];
+    const experience = await fetchBySlug({
+      slug: params.slug.toString(),
+      localeCode: locale,
+      client,
+      experienceTypeId: process.env.CONTENTFUL_EXPERIENCE_TYPE_ID as string,
+    });
 
-    if (!product) {
+    if (!experience) {
       return {
         notFound: true,
       };
     }
 
+    // @ts-expect-error
+    const referencedAssets = Array.from(experience.entityStore?.assetMap.entries());
+    // @ts-expect-error
+    const referencedEntries = Array.from(experience.entityStore?.entryMap.entries());
+
     return {
       props: {
         ...(await getServerSideTranslations(locale)),
-        product,
+        experienceJSON: JSON.stringify(experience),
+        referencedAssets,
+        referencedEntries,
+        locale,
       },
     };
-  } catch {
+  } catch (e) {
+    console.error('error', e);
     return {
       notFound: true,
     };
