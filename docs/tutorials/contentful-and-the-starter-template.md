@@ -137,7 +137,7 @@ Now, let's connect the new `Greeting` field to our Starter Template source code:
 - Open the `HeroBanner.tsx` file.
   - Follow the comments in the file, lines #23 and #99, save the changes.
 - Navigate to the running Starter Template application, [http://localhost:3000/](http://localhost:3000/)
-  - If the application is not running yet, in your terminal of choice, run `yarn dev`.
+  - If the application is not running yet, in your terminal of choice, run `npm run dev`.
 - You should see the `Greeting` field in the Homepage - Hero section.
 
 $~$
