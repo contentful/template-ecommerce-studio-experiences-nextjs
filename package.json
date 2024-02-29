@@ -33,7 +33,7 @@
     "@contentful/f36-tokens": "^4.0.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.10.5",
-    "@next/bundle-analyzer": "^13.0.4",
+    "@next/bundle-analyzer": "^14.1.0",
     "@next/font": "14.1.0",
     "@svgr/webpack": "^6.5.1",
     "contentful": "^10.6.22",
