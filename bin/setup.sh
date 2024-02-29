@@ -36,5 +36,5 @@ done
 
 # install node_modules and run dev
 echo Installing dependencies
-yarn
-yarn dev
+npm install
+npm run dev
