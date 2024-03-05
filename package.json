@@ -40,7 +40,7 @@
     "dotenv": "^16.4.5",
     "framer-motion": "^11.0.8",
     "locale-currency": "^0.0.2",
-    "next": "14.1.1",
+    "next": "14.1.2",
     "next-absolute-url": "^1.2.2",
     "next-compose-plugins": "^2.2.1",
     "next-i18next": "^15.2.0",
